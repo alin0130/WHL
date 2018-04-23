@@ -1,8 +1,8 @@
 package Product;
 
 import Discount.AbstractFactory;
-import Discount.CustomerDiscount;
 import Discount.IDiscount;
+import Discount.customerDIscount.CustomerType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +15,17 @@ public class ProductRepo {
     private List<Product> products =new ArrayList<>();
     //private IDiscount d=null;
     public ProductRepo() {
-        products.add(new Product(1, "Masa", new Price(20)));
-        products.add(new Product(2, "Scaun", new Price(30)));
-        products.add(new Product(3, "Fotoliu", new Price(50)));
-        products.add(new Product(4, "Bucatarie", new Price(200)));
+        // Products
+        products.add(new Product(1, "Product 1", new Price(20)));
+        products.add(new Product(2, "Product 2", new Price(30)));
+        products.add(new Product(3, "Product 3", new Price(50)));
+        products.add(new Product(4, "Product 3", new Price(200)));
     }
-    public void cmputeProductsDiscount(String customerType,int quantity){
+    public void computeProductsDiscount(CustomerType customerType, int quantity){
         if(customerType!= null){
-            AbstractFactory factory = AbstractFactory.getFactory(CUSTOMER);
+            AbstractFactory factory = AbstractFactory.getCustomerFactory(customerType);
             IDiscount d=factory.createDiscount();
             applyDiscount(d);
-
         }else if(quantity>20){
                 AbstractFactory factory = AbstractFactory.getFactory(BULK);
                 IDiscount d=factory.createDiscount();
@@ -35,8 +35,6 @@ public class ProductRepo {
                 IDiscount d=factory.createDiscount();
                 applyDiscount(d);
             }
-
-
     }
     public void applyDiscount(IDiscount d){
         for(Product p:products){
